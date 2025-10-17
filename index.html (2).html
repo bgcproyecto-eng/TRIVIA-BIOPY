@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Trivia de la Biodiversidad del Paraguay</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #2e7d32, #ff9800);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+  .container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+  }
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  .question {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+  }
+  .options button {
+    background: #fff;
+    color: #2e7d32;
+    border: none;
+    margin: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 600;
+  }
+  .options button:hover {
+    background: #ffb74d;
+    color: #fff;
+  }
+  #next-btn {
+    background: #ff9800;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 1rem;
+    display: none;
+  }
+  #result {
+    display: none;
+    background: rgba(255,255,255,0.15);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-top: 1rem;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Trivia de la Biodiversidad del Paraguay</h1>
+    <div id="quiz">
+      <div id="question" class="question"></div>
+      <div id="options" class="options"></div>
+      <button id="next-btn">Siguiente</button>
+    </div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "¿Cuál es una característica única del aguará guazú?",
+        options: [
+          "Su cuerpo robusto y patas cortas",
+          "Sus patas largas y pelaje rojizo-anaranjado",
+          "Su tamaño pequeño y hábitos acuáticos"
+        ],
+        answer: 1
+      },
+      {
+        question: "¿Qué distingue al pecarí tajacu de otros cerdos silvestres?",
+        options: [
+          "Su cola larga y pelaje rayado",
+          "Su glándula dorsal con olor característico",
+          "Su gran tamaño y vida solitaria"
+        ],
+        answer: 1
+      },
+      {
+        question: "El ciervo de las pampas se encuentra principalmente en...",
+        options: [
+          "Bosques húmedos densos",
+          "Zonas áridas del Chaco",
+          "Pastizales abiertos y sabanas"
+        ],
+        answer: 2
+      },
+      {
+        question: "El puma concolor se considera una especie clave porque...",
+        options: [
+          "Controla poblaciones de presas y mantiene el equilibrio ecológico",
+          "Es el mamífero más abundante del Paraguay",
+          "Solo habita en zonas montañosas"
+        ],
+        answer: 0
+      },
+      {
+        question: "El tucán toco usa su gran pico principalmente para...",
+        options: [
+          "Defenderse de depredadores grandes",
+          "Regular su temperatura corporal y alcanzar frutos",
+          "Excavar madrigueras en los troncos"
+        ],
+        answer: 1
+      },
+      {
+        question: "El tero tero es conocido por...",
+        options: [
+          "Su canto nocturno y color gris uniforme",
+          "Su comportamiento territorial y grito de alarma",
+          "Vivir exclusivamente en zonas forestales"
+        ],
+        answer: 1
+      },
+      {
+        question: "El pitiogüe se adapta fácilmente porque...",
+        options: [
+          "Es omnívoro y puede habitar tanto en zonas urbanas como rurales",
+          "Solo se alimenta de peces",
+          "Vive únicamente en bosques densos"
+        ],
+        answer: 0
+      },
+      {
+        question: "El yacaré cumple un papel importante al...",
+        options: [
+          "Regular poblaciones acuáticas y mantener el equilibrio del ecosistema",
+          "Comer exclusivamente vegetales",
+          "Ser una especie invasora"
+        ],
+        answer: 0
+      },
+      {
+        question: "La ka’a he’ê es una planta destacada por...",
+        options: [
+          "Su alto contenido de cafeína",
+          "Sus hojas dulces con compuestos naturales como el esteviósido",
+          "Su uso exclusivo como planta ornamental"
+        ],
+        answer: 1
+      },
+      {
+        question: "El pindó es importante porque...",
+        options: [
+          "Sus frutos alimentan a la fauna y se utiliza en artesanías",
+          "Es una especie acuática",
+          "Posee flores medicinales raras"
+        ],
+        answer: 0
+      },
+      {
+        question: "Del takuare’ê se obtiene principalmente...",
+        options: [
+          "Aceite medicinal",
+          "Azúcar y derivados de la caña",
+          "Resina para madera"
+        ],
+        answer: 1
+      },
+      {
+        question: "El lapacho es reconocido por...",
+        options: [
+          "Florecer con gran belleza antes de perder sus hojas",
+          "Tener hojas comestibles",
+          "Ser un árbol exclusivamente del Chaco seco"
+        ],
+        answer: 0
+      },
+      {
+        question: "La mandioca se considera un alimento fundamental porque...",
+        options: [
+          "Es rica en almidón y base de la dieta tradicional paraguaya",
+          "Solo crece en regiones frías",
+          "Es una fuente importante de proteínas animales"
+        ],
+        answer: 0
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById('question');
+    const optionsEl = document.getElementById('options');
+    const nextBtn = document.getElementById('next-btn');
+    const resultEl = document.getElementById('result');
+
+    function showQuestion() {
+      let q = questions[currentQuestion];
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = '';
+      q.options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.textContent = option;
+        btn.addEventListener('click', () => selectAnswer(index));
+        optionsEl.appendChild(btn);
+      });
+      nextBtn.style.display = 'none';
+    }
+
+    function selectAnswer(index) {
+      const q = questions[currentQuestion];
+      const buttons = optionsEl.querySelectorAll('button');
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === q.answer) btn.style.background = '#2e7d32', btn.style.color = '#fff';
+        else if (i === index) btn.style.background = '#d32f2f', btn.style.color = '#fff';
+      });
+      if (index === q.answer) score++;
+      nextBtn.style.display = 'block';
+    }
+
+    nextBtn.addEventListener('click', () => {
+      currentQuestion++;
+      if (currentQuestion < questions.length) showQuestion();
+      else showResult();
+    });
+
+    function showResult() {
+      document.getElementById('quiz').style.display = 'none';
+      resultEl.style.display = 'block';
+      resultEl.innerHTML = `<h2>Resultados</h2><p>Respondiste correctamente ${score} de ${questions.length} preguntas.</p>`;
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
